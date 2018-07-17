@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Inventory App</string>
+
+    <!-- Label for overflow menu option that inserts fake inventory data into the app [CHAR LIMIT=20] -->
+    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+
+    <!-- Label for overflow menu option that deletes all inventory data in the app [CHAR LIMIT=20] -->
+    <string name="action_delete_all_entries">Delete All Products</string>
+
+    <!-- Title for the activity to add a new product [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_new_product">Add a Product</string>
+
+    <!-- Label for editor menu option to save product and leave editor [CHAR LIMIT=20] -->
+    <string name="action_save">Save</string>
+
+    <!-- Label for editor overflow menu option that deletes the current product [CHAR LIMIT=20] -->
+    <string name="action_delete">Delete</string>
+
+    <!-- Label for product category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_product">Product</string>
+
+    <!-- Text hint for product name field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_product_name">Name</string>
+
+    <!-- Text hint for product price field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_product_price">Price (€)</string>
+
+    <!-- Text hint for product quantity field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_product_quantity">Quantity</string>
+
+    <!-- Price of the product (euros) [CHAR LIMIT=5] -->
+    <string name="price_in_euros">€</string>
+
+    <!-- Label for product category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_supplier">Supplier</string>
+
+    <!-- Text hint for supplier name field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_supplier_name">Name</string>
+
+    <!-- Text hint for supplier phone number field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_supplier_phone_nr">Phone number</string>
+</resources>
