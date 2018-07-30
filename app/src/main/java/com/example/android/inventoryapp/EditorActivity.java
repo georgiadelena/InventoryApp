@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -185,9 +186,15 @@ public class EditorActivity extends AppCompatActivity implements
      */
     private void decrementQuantityByOne(){
         String previousValueString = mQuantityEditText.getText().toString().trim();
-        int previousValueInt = Integer.parseInt(previousValueString);
-        if(!TextUtils.isEmpty(previousValueString) && previousValueInt > 0){
-            mQuantityEditText.setText(String.valueOf(previousValueInt - 1));
+        if(!TextUtils.isEmpty(previousValueString)){
+            try{
+                int previousValueInt = Integer.parseInt(previousValueString);
+                if(previousValueInt > 0)
+                    mQuantityEditText.setText(String.valueOf(previousValueInt - 1));
+            }
+            catch (Exception e){
+                Log.v("Warning:", "Idiot sandwich");
+            }
         }
     }
 
@@ -196,8 +203,8 @@ public class EditorActivity extends AppCompatActivity implements
      */
     private void incrementQuantityByOne(){
         String previousValueString = mQuantityEditText.getText().toString().trim();
-        int previousValueInt = Integer.parseInt(previousValueString);
         if(!TextUtils.isEmpty(previousValueString)){
+            int previousValueInt = Integer.parseInt(previousValueString);
             mQuantityEditText.setText(String.valueOf(previousValueInt + 1));
         }
     }
