@@ -41,11 +41,38 @@
                 android:inputType="textCapWords" />
 
             <!-- Quantity field -->
-            <EditText
-                android:id="@+id/edit_product_quantity"
-                style="@style/EditorFieldStyle"
-                android:hint="@string/hint_product_quantity"
-                android:inputType="textCapWords" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="4dp">
+
+                <!-- Button that decrements the product quantity -->
+                <Button
+                    android:id="@+id/decrement_quantity_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/editor_decrement_quantity" />
+
+                <EditText
+                    android:id="@+id/edit_product_quantity"
+                    style="@style/EditorFieldStyle"
+                    android:hint="@string/hint_product_quantity"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:inputType="textCapWords" />
+
+                <!-- Button that increments the product quantity -->
+                <Button
+                    android:id="@+id/increment_quantity_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/editor_increment_quantity" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -83,4 +110,10 @@
                 android:inputType="textCapWords" />
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/order_product_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/editor_order_product" />
 </LinearLayout>

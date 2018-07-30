@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -70,6 +71,13 @@ public class EditorActivity extends AppCompatActivity implements
     /**
      * Boolean flag that keeps track of whether the product has been edited (true) or not (false)
      */
+
+    private Button incrementQuantity;
+
+    private Button decrementQuantity;
+
+    private Button orderButton;
+
     private boolean mProductHasChanged = false;
 
     /**
@@ -94,6 +102,17 @@ public class EditorActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
 
+        // Find all relevant views that we will need to read user input from
+        mNameEditText = (EditText) findViewById(R.id.edit_product_name);
+        mPriceEditText = (EditText) findViewById(R.id.edit_product_price);
+        mQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
+        mSupNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
+        mSupPhoneNrEditText = (EditText) findViewById(R.id.edit_supplier_phone_nr);
+
+        incrementQuantity = (Button) findViewById(R.id.increment_quantity_button);
+        decrementQuantity = (Button) findViewById(R.id.decrement_quantity_button);
+        orderButton = (Button) findViewById(R.id.order_product_button);
+
         // If the intent DOES NOT contain a product content URI, then we know that we are
         // creating a new product.
         if (mCurrentProductUri == null) {
@@ -103,21 +122,19 @@ public class EditorActivity extends AppCompatActivity implements
             // Invalidate the options menu, so the "Delete" menu option can be hidden.
             // (It doesn't make sense to delete a product that hasn't been created yet.)
             invalidateOptionsMenu();
+
+            //It doesn't make sense to order a product that hasn't been created yet.
+            orderButton.setVisibility(View.GONE);
         } else {
             // Otherwise this is an existing product, so change app bar to say "Edit Product"
             setTitle(getString(R.string.editor_activity_title_edit_product));
+
+            orderButton.setVisibility(View.VISIBLE);
 
             // Initialize a loader to read the product data from the database
             // and display the current values in the editor
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
-
-        // Find all relevant views that we will need to read user input from
-        mNameEditText = (EditText) findViewById(R.id.edit_product_name);
-        mPriceEditText = (EditText) findViewById(R.id.edit_product_price);
-        mQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
-        mSupNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
-        mSupPhoneNrEditText = (EditText) findViewById(R.id.edit_supplier_phone_nr);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -127,6 +144,62 @@ public class EditorActivity extends AppCompatActivity implements
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mSupNameEditText.setOnTouchListener(mTouchListener);
         mSupPhoneNrEditText.setOnTouchListener(mTouchListener);
+
+        // On click listener for the order button
+        orderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                orderProduct();
+            }
+        });
+
+        decrementQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decrementQuantityByOne();
+                mProductHasChanged = true;
+            }
+        });
+
+        incrementQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                incrementQuantityByOne();
+                mProductHasChanged = true;
+            }
+        });
+    }
+
+    /**
+     * This method handles the caller intent, when the user clicks the order button. The dialer
+     * is launched, displaying the supplier's telephone number.
+     */
+    private void orderProduct(){
+        String supNumberString = mSupPhoneNrEditText.getText().toString().trim();
+        Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + supNumberString));
+        startActivity(callIntent);
+    }
+
+    /**
+     * This method handles decreasing the quantity of the product by one item.
+     */
+    private void decrementQuantityByOne(){
+        String previousValueString = mQuantityEditText.getText().toString().trim();
+        int previousValueInt = Integer.parseInt(previousValueString);
+        if(!TextUtils.isEmpty(previousValueString) && previousValueInt > 0){
+            mQuantityEditText.setText(String.valueOf(previousValueInt - 1));
+        }
+    }
+
+    /**
+     * This method handles increasing the quantity of the product by one item.
+     */
+    private void incrementQuantityByOne(){
+        String previousValueString = mQuantityEditText.getText().toString().trim();
+        int previousValueInt = Integer.parseInt(previousValueString);
+        if(!TextUtils.isEmpty(previousValueString)){
+            mQuantityEditText.setText(String.valueOf(previousValueInt + 1));
+        }
     }
 
     @Override

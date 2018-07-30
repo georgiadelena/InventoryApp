@@ -24,10 +24,10 @@ public class ProductProvider extends ContentProvider {
     /** Database helper object*/
     private ProductDbHelper mDbHelper;
 
-    /** URI matcher code for the content URI for the products table */
+    /** URI matcher code for the content URI for the pets table */
     private static final int PRODUCTS = 100;
 
-    /** URI matcher code for the content URI for a single product in the products table */
+    /** URI matcher code for the content URI for a single pet in the pets table */
     private static final int PRODUCT_ID = 101;
 
     /**
