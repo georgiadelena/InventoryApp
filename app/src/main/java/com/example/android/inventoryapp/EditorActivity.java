@@ -206,6 +206,10 @@ public class EditorActivity extends AppCompatActivity implements
         if(!TextUtils.isEmpty(previousValueString)){
             int previousValueInt = Integer.parseInt(previousValueString);
             mQuantityEditText.setText(String.valueOf(previousValueInt + 1));
+        } else{
+            // In this case, if the quantity EditText is empty and the user clicks to increment for
+            // for the first time, the value is set to 0.
+            mQuantityEditText.setText("0");
         }
     }
 
@@ -325,19 +329,30 @@ public class EditorActivity extends AppCompatActivity implements
             return;
         }
 
-        // Create a ContentValues object where column names are the keys,
-        // and product attributes from the editor are the values.
-        ContentValues values = new ContentValues();
-        values.put(ProductEntry.COLUMN_PRODUCT_NAME, productNameString);
-        values.put(ProductEntry.COLUMN_SUPPLIER_NAME, supNameString);
-        values.put(ProductEntry.COLUMN_SUPPLIER_PHONE_NR, supNumberString);
+        // Make sure that the product name is not empty
+        if (TextUtils.isEmpty(productNameString)) {
+            Toast.makeText(this, R.string.product_name_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Make sure that the supplier name is not empty
+        if (TextUtils.isEmpty(supNameString)) {
+            Toast.makeText(this, R.string.supplier_name_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Make sure that the supplier phone number is not empty
+        if (TextUtils.isEmpty(supNumberString)) {
+            Toast.makeText(this, R.string.supplier_number_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // If the price is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
         int price = 0;
         if (!TextUtils.isEmpty(priceString)) {
             price = Integer.parseInt(priceString);
         }
-        values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
 
         // If the quantity is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
@@ -345,6 +360,14 @@ public class EditorActivity extends AppCompatActivity implements
         if (!TextUtils.isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
         }
+
+        // Create a ContentValues object where column names are the keys,
+        // and product attributes from the editor are the values.
+        ContentValues values = new ContentValues();
+        values.put(ProductEntry.COLUMN_PRODUCT_NAME, productNameString);
+        values.put(ProductEntry.COLUMN_SUPPLIER_NAME, supNameString);
+        values.put(ProductEntry.COLUMN_SUPPLIER_PHONE_NR, supNumberString);
+        values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
         values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
 
         // Determine if this is a new or existing product by checking if mCurrentProductUri is null

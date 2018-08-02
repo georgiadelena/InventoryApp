@@ -96,4 +96,13 @@
 
     <!-- Subtitle text for the empty view that prompts the user to add a product [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Get started by adding a product</string>
+
+    <!-- Toast text that prompts the user to add a valid product name [CHAR LIMIT=50] -->
+    <string name="product_name_empty">Please provide a valid product name</string>
+
+    <!-- Toast text that prompts the user to add a valid supplier name [CHAR LIMIT=50] -->
+    <string name="supplier_name_empty">Please provide a valid supplier name</string>
+
+    <!-- Toast text that prompts the user to add a valid supplier phone number [CHAR LIMIT=50] -->
+    <string name="supplier_number_empty">Please provide a valid supplier phone number</string>
 </resources>
