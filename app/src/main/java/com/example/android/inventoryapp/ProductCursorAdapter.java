@@ -85,10 +85,10 @@ public class ProductCursorAdapter extends CursorAdapter {
         quantityTextView.setText("Quantity: " + Integer.toString(productQuantity));
 
         //Get the current quantity and make into an integer
-        String currentQuantityString = cursor.getString (quantityColumnIndex);
-        final int currentQuantity = Integer.valueOf (currentQuantityString);
+        String currentQuantityString = cursor.getString(quantityColumnIndex);
+        final int currentQuantity = Integer.valueOf(currentQuantityString);
         // Get the rows from the table with the ID
-        final int productId = cursor.getInt ( cursor.getColumnIndex (ProductEntry._ID ));
+        final int productId = cursor.getInt(cursor.getColumnIndex(ProductEntry._ID));
 
         saleButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -98,14 +98,13 @@ public class ProductCursorAdapter extends CursorAdapter {
                     int newQuantity = currentQuantity - 1;
 
                     // Getting the URI and appending the ID of the current row
-                    Uri quantityUri = ContentUris.withAppendedId ( ProductEntry.CONTENT_URI, productId );
+                    Uri quantityUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, productId);
 
                     // Updating the quantity with the new value
-                    ContentValues values = new ContentValues ();
-                    values.put (ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity);
+                    ContentValues values = new ContentValues();
+                    values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity);
                     context.getContentResolver().update(quantityUri, values, null, null);
                 }
-
                 // If the quantity is 0, show a toast message that the product is out of stock. The
                 // database will not be updated.
                 else{
@@ -114,5 +113,4 @@ public class ProductCursorAdapter extends CursorAdapter {
             }
         });
     }
-
 }
