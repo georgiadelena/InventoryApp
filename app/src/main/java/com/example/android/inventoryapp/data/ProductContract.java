@@ -60,12 +60,6 @@ public class ProductContract {
         public static final String TABLE_NAME = "product";
 
         /**
-         * Unique ID number for each product (only for use in the database table)
-         * Type: INTEGER
-         */
-        public static final String _ID = BaseColumns._ID;
-
-        /**
          *  Name of the product
          *  Type: TEXT
          */

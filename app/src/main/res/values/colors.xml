@@ -14,4 +14,10 @@
 
     <!-- Primary dark color for the editor -->
     <color name="editorColorPrimaryDark">#394450</color>
+
+    <!-- Color for the product name in CatalogActivity -->
+    <color name="catalogProductNameColor">#2B3D4D</color>
+
+    <!-- Color for the price and quantity of the product in CatalogActivity -->
+    <color name="catalogDetailsColor">#AEB6BD</color>
 </resources>

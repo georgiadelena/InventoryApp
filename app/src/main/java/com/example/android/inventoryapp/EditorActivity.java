@@ -238,14 +238,19 @@ public class EditorActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Flag that will be used to check whether the user entered valid information into all
+        // mandatory fields before clicking to save the product.
+        boolean flag = true;
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save product to database
-                saveProduct();
-                // Exit activity
-                finish();
+                flag = saveProduct();
+                // Exit activity if the user entered valid info into all mandatory fields. Otherwise,
+                // do not exit, until valid input is given.
+                if(flag)
+                    finish();
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
@@ -308,8 +313,10 @@ public class EditorActivity extends AppCompatActivity implements
 
     /**
      * Get user input from editor and save product into database.
+     * @return boolean value that indicates whether the user entered valid information into all
+     * mandatory fields (product name, supplier name, supplier phone number).
      */
-    private void saveProduct() {
+    private boolean saveProduct() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String productNameString = mNameEditText.getText().toString().trim();
@@ -326,25 +333,28 @@ public class EditorActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(supNumberString)) {
             // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
-            return;
+            return true;
         }
 
-        // Make sure that the product name is not empty
+        // Make sure that the product name is not empty. If it is not given by the user, prompt them
+        // to give valid input with a Toast message.
         if (TextUtils.isEmpty(productNameString)) {
             Toast.makeText(this, R.string.product_name_empty, Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
-        // Make sure that the supplier name is not empty
+        // Make sure that the supplier name is not empty. If it is not given by the user, prompt them
+        // to give valid input with a Toast message.
         if (TextUtils.isEmpty(supNameString)) {
             Toast.makeText(this, R.string.supplier_name_empty, Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
-        // Make sure that the supplier phone number is not empty
+        // Make sure that the supplier phone number is not empty. If it is not given by the user,
+        // prompt them to give valid input with a Toast message.
         if (TextUtils.isEmpty(supNumberString)) {
             Toast.makeText(this, R.string.supplier_number_empty, Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
         // If the price is not provided by the user, don't try to parse the string into an
@@ -405,6 +415,7 @@ public class EditorActivity extends AppCompatActivity implements
                         Toast.LENGTH_SHORT).show();
             }
         }
+        return true;
     }
 
     @Override
@@ -514,15 +525,9 @@ public class EditorActivity extends AppCompatActivity implements
                 deleteProduct();
             }
         });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the product.
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
+        // Any button will dismiss the popup dialog by default, so by clicking "Cancel", it will be
+        // dismissed.
+        builder.setNegativeButton("Cancel", null);
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
